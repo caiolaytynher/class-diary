@@ -1,0 +1,44 @@
+Elaborar um programa em C que implemente o diário de classe da disciplina de
+Programação II. Inicialmente o programa deve apresentar ao usuáreio um menu com
+as seguintes possibilidades:
+- Opção 1: Cadastrar um aluno novo (permitir no máximo 15 alunos);
+- Opção 2: Cadastrar as notas de um aluno existente (aqui o usuário deve
+  informar o nome ou a matrícula do aluno e o programa deve perguntar qual nota
+  o usuário deseja informar, o programa deve verificar se a nota está entre 0,0
+  e 10,0 e salvar a nota OU informar que o valor é inválido e pedir para o
+  usuário digitar outro valor válido. Caso o aluno não tenha sido cadastrado
+  anteriormente, o usuário deverá ser informado e o programa deve apresentar o
+  menu inicial);
+- Opção 3: Consultar o status de um aluno (aqui o usuário deve informar o nome
+  ou a matrícula do aluno e o programa deverá apresentar as notas cadastradas,
+  a média e o status (seguindo a regra de status definida abaix0). Caso o aluno
+  não tenha todas as notas cadastradas, o programa deverá apresentar as notas
+  cadastradas (se houver) e informar que o aluno ainda não tem todas as notas.
+  Caso o aluno não tenha sido cadastrado anteriormente, o usuário deverá ser
+  informado e o programa deve apresentar o menu inicial);
+- Opção 4: Apresentar o relatório de alunos cadastrados com suas notas, média e
+  status (seguindo a regra de status definida abaixo) e ao final a média da
+  turma em cada avaliação e a média geral da turma, no seguinte formato:
+  ================================================================================
+  Matricula	Nome			Nota1	Nota2	Nota3	Média	Status
+  ================================================================================
+  202211234	Zezinho	 da Silva	8,0	7,0	8,0	7,6	Aprovado por média ...
+  ================================================================================
+  Média da Turma				6,7	7,5	8,2	7,2
+  ========================================================================
+
+Regra de status:
+- Média >= 7,0 : Aprovado por média
+- Média < 7,0 e >= 5,0 : Aprovado na final
+- Média < 5,0 : Reprovado por média Obs.: A média é calculada como média
+  aritmética das três notas e deve ser truncada em 1 casa decimal após a
+  vírgula.
+
+Dicas:
+- Utilizem switch case para implementar o menu;
+- O usuário poderá terminar a execução do programa a qualquer momento digitando
+  0 na opção de menu;
+- Os alunos devem ser armazenados em um vetor de structs. Para cada aluno o
+  programa deve armazenar a matrícula, o nome, as três notas e a média;
+- O formato do diário de classe deve ser respeitado;
+- As funções da string.h devem ser utilizadas;
