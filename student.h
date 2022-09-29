@@ -1,7 +1,6 @@
 #ifndef STUDENT_H
 #define STUDENT_H
 
-#include <stddef.h>
 #define MAX_STUDENTS 15
 #define AMOUNT_OF_GRADES 3
 #define MAX_NAME_LEN 50
