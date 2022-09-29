@@ -1,5 +1,6 @@
 #include "student.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 void print_table_division() {
@@ -20,22 +21,29 @@ void get_student_name(char *name) {
   strcpy(name, input_name);
 }
 
-student create_new_student() {
-  student new_student;
+void register_new_student(student *new_student) {
   int registration;
 
   printf("New student registration:\n");
   printf("Registration number: ");
   scanf("%d", &registration);
-  new_student.registration = registration;
+  new_student->registration = registration;
 
   printf("Name: ");
-  get_student_name(new_student.name);
+  get_student_name(new_student->name);
 
   for (int i = 0; i < AMOUNT_OF_GRADES; i++)
-    new_student.has_grade[i] = 0;
+    new_student->has_grade[i] = 0;
 
-  return new_student;
+  new_student->next = NULL;
+}
+
+void deallocate_class(student *classroom) {
+  while (classroom != NULL) {
+    student *tmp = classroom->next;
+    free(classroom);
+    classroom = tmp;
+  }
 }
 
 void show_student_status(student *class_student, int show_title) {
@@ -69,7 +77,7 @@ void show_student_status(student *class_student, int show_title) {
   print_table_division();
 }
 
-void show_class_status(student *classroom, int class_size) {
+void show_class_status(student *classroom) {
   float total_grade[AMOUNT_OF_GRADES];
   for (int i = 0; i < AMOUNT_OF_GRADES; i++) {
     total_grade[i] = 0.0f;
@@ -83,21 +91,21 @@ void show_class_status(student *classroom, int class_size) {
   float total_average_grade = 0.0f;
   int amount_of_average_grade = 0;
 
-  for (int i = 0; i < class_size; i++) {
-    if (i == 0)
-      show_student_status(&classroom[i], 1);
+  for (student *s = classroom; s != NULL; s = s->next) {
+    if (s == classroom)
+      show_student_status(s, 1);
     else
-      show_student_status(&classroom[i], 0);
+      show_student_status(s, 0);
 
     for (int j = 0; j < AMOUNT_OF_GRADES; j++) {
-      if (classroom[i].has_grade[j]) {
-        total_grade[j] += classroom[i].grades[j];
+      if (s->has_grade[j]) {
+        total_grade[j] += s->grades[j];
         amount_of_grade[j]++;
       }
     }
 
-    if (classroom[i].has_average_grade) {
-      total_average_grade += classroom[i].average_grade;
+    if (s->has_average_grade) {
+      total_average_grade += s->average_grade;
       amount_of_average_grade++;
     }
   }
@@ -175,25 +183,25 @@ void set_student_grade(student *class_student) {
   }
 }
 
-student *get_student_by_registration(student *classroom, int class_size) {
+student *get_student_by_registration(student *classroom) {
   int registration;
   printf("Registration: ");
   scanf("%d", &registration);
-  for (int i = 0; i < class_size; i++) {
-    if (classroom[i].registration == registration)
-      return &classroom[i];
+  for (student *s = classroom; s != NULL; s = s->next) {
+    if (s->registration == registration)
+      return s;
   }
 
   return NULL;
 }
 
-student *get_student_by_name(student *classroom, int class_size) {
+student *get_student_by_name(student *classroom) {
   char name[MAX_NAME_LEN];
   printf("Name: ");
   get_student_name(name);
-  for (int i = 0; i < class_size; i++) {
-    if (strcmp(classroom[i].name, name) == 0)
-      return &classroom[i];
+  for (student *s = classroom; s != NULL; s = s->next) {
+    if (strcmp(s->name, name) == 0)
+      return s;
   }
 
   return NULL;

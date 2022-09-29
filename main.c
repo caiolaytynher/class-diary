@@ -1,13 +1,14 @@
 #include "menu.h"
 #include "student.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 int main(int argc, char *argv[]) {
-  student classroom[MAX_STUDENTS];
-  student *class_student;
-  int class_size = 0;
+  student *classroom = NULL;
+  student *class_student = NULL;
   int option;
+  int status_ok;
 
   while (1) {
     option = main_menu();
@@ -16,21 +17,22 @@ int main(int argc, char *argv[]) {
     case 0:
       break;
     case 1:
-      if (class_size == MAX_STUDENTS) {
-        printf("The max amount of students is %d, and is already satisfied.\n",
-               MAX_STUDENTS);
-        continue;
+      class_student = malloc(sizeof(student));
+      if (class_student == NULL) {
+        printf("Unable to add new student.\n");
+        deallocate_class(classroom);
+        return -1;
       }
-
-      classroom[class_size] = create_new_student();
-      class_size++;
+      register_new_student(class_student);
+      class_student->next = classroom;
+      classroom = class_student;
 
       continue;
     case 2:
       option = get_student_menu();
 
       if (option == 1) {
-        class_student = get_student_by_registration(classroom, class_size);
+        class_student = get_student_by_registration(classroom);
 
         if (class_student == NULL) {
           printf("The student does not exist.\n");
@@ -38,7 +40,7 @@ int main(int argc, char *argv[]) {
         }
 
       } else {
-        class_student = get_student_by_name(classroom, class_size);
+        class_student = get_student_by_name(classroom);
 
         if (class_student == NULL) {
           printf("The student does not exist. Please try again.\n");
@@ -55,7 +57,7 @@ int main(int argc, char *argv[]) {
       option = get_student_menu();
 
       if (option == 1) {
-        class_student = get_student_by_registration(classroom, class_size);
+        class_student = get_student_by_registration(classroom);
 
         if (class_student == NULL) {
           printf("The student does not exist.\n");
@@ -63,7 +65,7 @@ int main(int argc, char *argv[]) {
         }
 
       } else {
-        class_student = get_student_by_name(classroom, class_size);
+        class_student = get_student_by_name(classroom);
 
         if (class_student == NULL) {
           printf("The student does not exist. Please try again.\n");
@@ -75,15 +77,16 @@ int main(int argc, char *argv[]) {
 
       continue;
     case 4:
-      if (class_size == 0) {
+      if (classroom == NULL) {
         printf("No class student registered yet.\n");
         continue;
       }
 
-      show_class_status(classroom, class_size);
+      show_class_status(classroom);
       continue;
     }
 
+    deallocate_class(classroom);
     return 0;
   }
 }
