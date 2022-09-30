@@ -48,9 +48,7 @@ int main(int argc, char *argv[]) {
         }
       }
 
-      print_student(class_student);
       set_student_grade(class_student);
-      print_student(class_student);
 
       continue;
     case 3:
