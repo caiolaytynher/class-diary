@@ -14,13 +14,13 @@ typedef struct student {
   struct student *next;
 } student;
 
-void register_new_student(student *new_student);
-void deallocate_class(student *classroom);
-void show_student_status(student *class_student, int show_title);
-void show_class_status(student *classroom);
-void print_student(student *class_student);
-void set_student_grade(student *class_student);
-student *get_student_by_registration(student *classroom);
-student *get_student_by_name(student *classroom);
+void register_new_student(student *);
+void deallocate_class(student *);
+void show_student_status(student *, int);
+void show_class_status(student *);
+void print_student(student *);
+void set_student_grade(student *);
+student *get_student_by_registration(student *);
+student *get_student_by_name(student *);
 
 #endif
