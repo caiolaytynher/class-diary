@@ -8,7 +8,6 @@ int main(int argc, char *argv[]) {
   student *classroom = NULL;
   student *class_student = NULL;
   int option;
-  int status_ok;
 
   while (1) {
     option = main_menu();
